@@ -4,8 +4,8 @@
      module: ec2_group
      name: "{{ item.sg_name }}"
      description: "{{ item.sg_description }}"
-     region: "{{ vpc_region }}" # Change the AWS region here
-     vpc_id: "{{ vpc.vpc_id }}" # vpc is the resgister name, you can also set it manually
+     region: "{{ vpc_region }}" 
+     vpc_id: "{{ vpc.vpc_id }}" 
      state: present
      rules: "{{ item.sg_rules }}"
    with_items: "{{ rds_security_groups }}"
@@ -58,10 +58,14 @@
        Environment: "{{ ENV }}"
        Application: "{{ application }}"
    register: rds
-
+   
  - name: RDS | Write the RDS facts/values to the file rds_info.yml inside the project directory
    shell: |
      echo "db_hostname: {{ rds.instance.endpoint }}" > rds_info.yml
      echo "db_name: {{ rds_db_name }}" >> rds_info.yml
      echo "db_username: {{ rds_db_username }}" >> rds_info.yml
      echo "db_password: {{ rds_db_password }}" >> rds_info.yml
+# - rds:     
+#     command: 
+#     instance_name: new-database
+#     snapshot: new_database_snapshot

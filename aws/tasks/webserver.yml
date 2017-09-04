@@ -4,8 +4,8 @@
      module: ec2_group
      name: "{{ item.sg_name }}"
      description: "{{ item.sg_description }}"
-     region: "{{ vpc_region }}" # Change the AWS region here
-     vpc_id: "{{ vpc.vpc_id }}" # vpc is the resgister name, you can also set it manually
+     region: "{{ vpc_region }}" 
+     vpc_id: "{{ vpc.vpc_id }}" 
      state: present
      rules: "{{ item.sg_rules }}"
    with_items: "{{ web_security_groups }}"
@@ -36,9 +36,10 @@
      wait_timeout: 600
      user_data: |
                #!/bin/sh
-               yum install httpd -y
-               service start httpd
-               chkconfig --levels 235 httpd on
+               sudo yum update
+               sudo yum install httpd -y
+               sudo service httpd start
+               sudo chkconfig --levels 235 httpd on
      instance_tags:
        Name: "{{ vpc_name }}_WEB_Instance"
        Environment: "{{ ENV }}"
@@ -83,4 +84,4 @@
      groupname: webserver
    with_items: 
      - "{{ instance_public_ip_1 }}"
-     - "{{ instance_public_ip_2 }}" 
+     - "{{ instance_public_ip_2 }}"
